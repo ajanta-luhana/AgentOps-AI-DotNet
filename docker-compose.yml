@@ -1,0 +1,21 @@
+# AgentOps AI .NET - local infrastructure (Milestone 1: PostgreSQL + pgvector only).
+# API, worker and frontend run on the host for now; Ollama runs on the host (see README).
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_DB: agentops
+      POSTGRES_USER: agentops
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:5432:5432" # bound to loopback only; never expose publicly
+    volumes:
+      - agentops_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agentops -d agentops"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  agentops_data:

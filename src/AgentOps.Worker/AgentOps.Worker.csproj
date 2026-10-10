@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UserSecretsId>agentops-ai-dotnet-api</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Generic Host without the Worker SDK's extra Microsoft.Extensions.Hosting package reference. -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AgentOps.Application\AgentOps.Application.csproj" />
+    <ProjectReference Include="..\AgentOps.Infrastructure\AgentOps.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <!-- Shared with the Worker so both read the same local user-secrets. -->
+    <UserSecretsId>agentops-ai-dotnet-api</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Needed so `dotnet ef` can use this project as the startup project. Not shipped at runtime. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AgentOps.Application\AgentOps.Application.csproj" />
+    <ProjectReference Include="..\AgentOps.Infrastructure\AgentOps.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

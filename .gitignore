@@ -1,0 +1,22 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+TestResults/
+# Secrets / local config
+.env
+.env.*
+!.env.example
+appsettings.*.local.json
+secrets.json
+# Frontend
+node_modules/
+frontend/dist/
+# Storage / OS / IDE
+storage/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
