@@ -24,7 +24,7 @@ internal static class HealthEndpoints
         {
             var logger = loggerFactory.CreateLogger(HealthLog.Category);
             using var timeout = CancellationTokenSource.CreateLinkedTokenSource(ct);
-            timeout.CancelAfter(TimeSpan.FromSeconds(3));
+            timeout.CancelAfter(TimeSpan.FromSeconds(5));
 
             var checks = new List<object>();
             var allHealthy = true;

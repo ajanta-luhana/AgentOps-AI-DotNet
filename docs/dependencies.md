@@ -6,13 +6,13 @@
 
 | Component | Version | Status |
 |---|---|---|
-| .NET SDK | 10.0.112 (Ubuntu package) | Verified (built Domain/Application, ran Api/Worker) |
+| .NET SDK | 10.0.401 (owner machine), 10.0.112 (authoring sandbox) | Verified |
 | Node.js / npm | 22.22.2 / 10.9.7 | Verified |
 | PostgreSQL (local check only) | 16.15 + pgvector 0.6.0 | Verified |
-| Compose image `pgvector/pgvector:pg17` | — | **Not verified** (no Docker in sandbox) |
+| Compose image `pgvector/pgvector:pg17` | PostgreSQL 17.11, pgvector 0.8.7 | Verified (owner machine) |
 | Ollama | — | **Not installed / not verified** |
 
-## NuGet (pinned in `Directory.Packages.props`) — all **unverified**, NuGet was unreachable
+## NuGet (pinned in `Directory.Packages.props`) — restored, built and tested on the owner machine
 
 | Package | Version | Used by |
 |---|---|---|
@@ -21,6 +21,8 @@
 | Microsoft.NET.Test.Sdk | 17.14.1 | tests |
 | xunit | 2.9.3 | tests |
 | xunit.runner.visualstudio | 3.1.4 | tests |
+
+`dotnet-ef` global tool 10.0.0 was installed and used (verified).
 
 Licenses: to be confirmed from each package's nuspec after a successful restore (not claimed here).
 

@@ -1,0 +1,3 @@
+[*.cs]
+# Underscores in test method names are conventional (Method_Scenario_Result).
+dotnet_diagnostic.CA1707.severity = none

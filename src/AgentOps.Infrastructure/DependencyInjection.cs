@@ -25,6 +25,7 @@ public static class DependencyInjection
             npgsql => npgsql.MigrationsAssembly(typeof(AgentOpsDbContext).Assembly.FullName)));
 
         services.AddScoped<IReadinessProbe, PostgresReadinessProbe>();
+        services.AddHostedService<DatabaseWarmupService>();
         return services;
     }
 }
