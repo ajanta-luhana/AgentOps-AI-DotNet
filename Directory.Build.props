@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -10,7 +10,7 @@
     <Product>AgentOps AI .NET</Product>
     <Company>AgentOps AI .NET</Company>
     <Description>Enterprise-Grade AI Agent Orchestration Platform Built with ASP.NET Core</Description>
-    <RepositoryUrl>https://github.com/REPLACE_WITH_OWNER/AgentOps-AI-DotNet</RepositoryUrl>
+    <RepositoryUrl>https://github.com/ajanta-luhana/AgentOps-AI-DotNet</RepositoryUrl>
     <Version>0.1.0</Version>
   </PropertyGroup>
 </Project>
