@@ -1,4 +1,4 @@
-﻿# AgentOps AI .NET
+# AgentOps AI .NET
 
 **Enterprise-Grade AI Agent Orchestration Platform Built with ASP.NET Core**
 
@@ -15,17 +15,17 @@ registered tools, persists every step, and returns a traceable report. No paid A
 - API host with `/api/v1/health/live` and `/api/v1/health/ready`, Problem Details errors, startup-validated configuration, explicit CORS.
 - Worker host skeleton (does **not** process tasks yet).
 - React + TypeScript shell that shows real readiness data from the API.
-- Docker Compose for PostgreSQL + pgvector, the `InitialCreate` EF Core migration (Organizations table + pgvector extension), GitHub Actions CI definition (not yet run).
+- Docker Compose for PostgreSQL + pgvector, the `InitialCreate` EF Core migration (Organizations table + pgvector extension), GitHub Actions CI (first run on 2026-10-11 succeeded).
 
 ## Target features (planned milestones)
 
-Registration/login with organizations and roles Â· agents and durable tasks with a validated state machine Â·
-Ollama structured planning Â· tool registry (`csv.profile`, `csv.analyze_sales`, `documents.search`, `reports.generate`) Â·
-deterministic CSV analytics Â· PDF/TXT RAG with pgvector and citations Â· approvals Â· evaluations Â· OpenTelemetry.
+Registration/login with organizations and roles · agents and durable tasks with a validated state machine ·
+Ollama structured planning · tool registry (`csv.profile`, `csv.analyze_sales`, `documents.search`, `reports.generate`) ·
+deterministic CSV analytics · PDF/TXT RAG with pgvector and citations · approvals · evaluations · OpenTelemetry.
 
 ## Tech stack
 
-ASP.NET Core / C# on .NET 10 Â· PostgreSQL + EF Core + Npgsql Â· pgvector Â· Ollama Â· React + TypeScript + Vite Â· xUnit.
+ASP.NET Core / C# on .NET 10 · PostgreSQL + EF Core + Npgsql · pgvector · Ollama · React + TypeScript + Vite · xUnit.
 Verified versions are listed in [docs/dependencies.md](docs/dependencies.md).
 
 ## Prerequisites
@@ -78,13 +78,13 @@ The worker reads the same user-secrets as the API (shared `UserSecretsId`).
 
 ## Frontend commands
 
-`npm run dev` Â· `npm run build` Â· `npm run lint` Â· `npm run typecheck` (all exist in `frontend/package.json`).
+`npm run dev` · `npm run build` · `npm run lint` · `npm run typecheck` (all exist in `frontend/package.json`).
 
 ## Security model (current)
 
 Secrets are never committed; configuration is validated at startup; errors are Problem Details without internal
 details; health endpoints expose only status. Authentication, tenant isolation, rate limiting and the rest of the
-threat model are **not implemented yet** â€” nothing here should be described as secure for real data.
+threat model are **not implemented yet** — nothing here should be described as secure for real data.
 
 ## Test results
 
@@ -93,8 +93,8 @@ performance measurements exist yet. Details and what is still unverified: [docs/
 
 ## Known issues and roadmap
 
-See [docs/status.md](docs/status.md). Roadmap: M2 identity â†’ M3 tasks/queue â†’ M4 Ollama/tools â†’ M5 CSV â†’ M6 RAG â†’
-M7 security/evaluation â†’ M8 frontend â†’ M9 delivery.
+See [docs/status.md](docs/status.md). Roadmap: M2 identity → M3 tasks/queue → M4 Ollama/tools → M5 CSV → M6 RAG →
+M7 security/evaluation → M8 frontend → M9 delivery.
 
 ## License
 

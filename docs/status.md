@@ -45,7 +45,7 @@ output was reviewed; the rest were run in the authoring sandbox.
 
 ## Not done / deferred
 
-- GitHub Actions workflow is written but **has never run**; action versions are major-tag pins not yet reviewed.
+- GitHub Actions CI: run #1 on commit `a9f397c` **succeeded** (jobs `backend` 35 s and `frontend` 13 s; test-results artifact uploaded; seen on the run summary page, job logs not reviewed). Annotations: actions pinned to major tags target the deprecated Node 20 runtime, and `ubuntu-latest` migrates to Ubuntu 26 on 2026-10-19 (runner now pinned to `ubuntu-24.04`). Action versions still need a review.
 - OpenAPI document: deferred to M2.
 - Integration tests (`Api.IntegrationTests`, `Infrastructure.Tests`): deferred to M2/M3.
 - The worker performs no task processing (M3).
