@@ -9,7 +9,7 @@ output was reviewed; the rest were run in the authoring sandbox.
 ## Milestones
 
 - [x] **M1 — Scaffold** (verified 2026-10-10/11, see below)
-- [ ] M2 — Identity
+- [~] M2 — Identity (**code written, NOT yet built or tested** — see "M2 status" below)
 - [ ] M3 — Core tasks
 - [ ] M4 — Local AI
 - [ ] M5 — CSV vertical slice
@@ -57,3 +57,20 @@ output was reviewed; the rest were run in the authoring sandbox.
 
 See README. Three terminals: database (`docker compose up -d --wait postgres`), API
 (`dotnet run --project src/AgentOps.Api`), frontend (`cd frontend; npm run dev`), then open `http://localhost:5173`.
+
+## M2 status (branch `feature/m2-identity`) — written, unverified
+
+Written without access to a .NET SDK, so **nothing below has been compiled or run**. Treat every line as
+"Not verified" until `dotnet build -c Release` and `dotnet test -c Release` pass on a real machine.
+
+| Item | State |
+|---|---|
+| `User` entity + `UserRole`, email validation/normalization | Written, unit tests added (`UserTests`), not run |
+| `Pbkdf2PasswordHasher` (PBKDF2-SHA256, 210k iterations, per-password salt) | Written, not tested |
+| `JwtTokenService` (HS256; claims `sub`, `org`, `role`, `email`) | Written, not tested |
+| `POST /api/v1/auth/register`, `POST /api/v1/auth/login`, `GET /api/v1/auth/me` | Written, not run |
+| JWT bearer authentication + authorization middleware | Written, not run |
+| EF model for `Users` (unique index on `NormalizedEmail`) | Written. **No migration yet** — generate it (see README) |
+
+Not done in M2 yet: refresh tokens, role-based policies on endpoints, rate limiting on login, OpenAPI,
+integration tests, `Infrastructure.Tests` for the hasher/token service.

@@ -73,8 +73,27 @@ The worker reads the same user-secrets as the API (shared `UserSecretsId`).
 |---|---|---|
 | `ConnectionStrings:DefaultConnection` | user-secrets / env var | Required; startup fails without it |
 | `AI:*` | `appsettings.json` placeholders | Set real model names via user-secrets before Milestone 4 |
+| `Jwt:SigningKey` | user-secrets / env var (`Jwt__SigningKey`) | Required, at least 32 characters; startup fails without it (M2) |
+| `Jwt:Issuer`, `Jwt:Audience`, `Jwt:AccessTokenMinutes` | `appsettings.json` | Defaults are committed |
 | `Cors:AllowedOrigins` | `appsettings.json` | Explicit origins only; `*` is rejected |
 | `POSTGRES_PASSWORD` | `.env` (git-ignored) | See `.env.example` |
+
+## Identity API (M2, branch `feature/m2-identity` — not yet verified)
+
+```powershell
+# one-time: a long random signing key (never commit it)
+dotnet user-secrets set "Jwt:SigningKey" "<at-least-32-random-characters>" --project src/AgentOps.Api
+
+# one-time: generate and apply the Users migration (not committed yet)
+dotnet ef migrations add AddUsers --project src/AgentOps.Infrastructure --startup-project src/AgentOps.Api
+dotnet ef database update --project src/AgentOps.Infrastructure --startup-project src/AgentOps.Api
+```
+
+| Endpoint | Auth | Purpose |
+|---|---|---|
+| `POST /api/v1/auth/register` | none | Body `{email, password (12-128 chars), organizationName}`. Creates an organization and its Admin user; returns a token |
+| `POST /api/v1/auth/login` | none | Body `{email, password}`; returns `{accessToken, expiresAtUtc, user}` |
+| `GET /api/v1/auth/me` | Bearer token | Returns the current user |
 
 ## Frontend commands
 

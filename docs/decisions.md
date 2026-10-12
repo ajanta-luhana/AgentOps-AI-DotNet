@@ -21,3 +21,8 @@
 | D17 | Analyzer `CA1707` disabled under `tests/` only | `Method_Scenario_Result` test names are conventional; production code stays strict. |
 | D18 | `AllowedHosts` is `localhost` in base config; `appsettings.Development.json` also allows `127.0.0.1` | Keeps production host filtering strict while allowing local tooling. |
 | D19 | Best-effort database warm-up at startup; readiness timeout 5 s (was 3 s) | First readiness request after API start returned 503 on two separate days. Warm-up is non-fatal and logs only the exception type. |
+| D20 | Passwords hashed with built-in PBKDF2-SHA256 (`Rfc2898DeriveBytes.Pbkdf2`), format `v1.{iterations}.{salt}.{hash}` | No extra package; stored iteration count allows raising the cost later. |
+| D21 | Access token only (30 min default), HS256 JWT; refresh tokens deferred | Smallest correct slice first. Signing key is a secret (`Jwt:SigningKey`), min 32 chars, startup fails without it. |
+| D22 | Registration creates an Organization and its first `Admin` user together | Every user belongs to exactly one organization (tenant root). |
+| D23 | M2 `Users` migration is **not** committed from the authoring sandbox | EF Core 9+ throws on model/snapshot drift (see D10); generate it with `dotnet ef` on a machine with the SDK. |
+

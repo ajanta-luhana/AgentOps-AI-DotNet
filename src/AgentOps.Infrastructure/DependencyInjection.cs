@@ -1,4 +1,5 @@
 using AgentOps.Application.Abstractions;
+using AgentOps.Infrastructure.Authentication;
 using AgentOps.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,11 @@ public static class DependencyInjection
         services.AddDbContext<AgentOpsDbContext>(options => options.UseNpgsql(
             connectionString,
             npgsql => npgsql.MigrationsAssembly(typeof(AgentOpsDbContext).Assembly.FullName)));
+
+        services.AddSingleton(TimeProvider.System);
+        services.AddSingleton<IPasswordHasher, Pbkdf2PasswordHasher>();
+        // JwtOptions is bound and validated by the API host (the worker does not issue tokens).
+        services.AddSingleton<ITokenService, JwtTokenService>();
 
         services.AddScoped<IReadinessProbe, PostgresReadinessProbe>();
         services.AddHostedService<DatabaseWarmupService>();
