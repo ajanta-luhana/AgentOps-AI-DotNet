@@ -1,8 +1,12 @@
 using System.Diagnostics;
+using System.Text;
 using AgentOps.Api.Configuration;
 using AgentOps.Api.Endpoints;
 using AgentOps.Application.Common;
 using AgentOps.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +22,35 @@ if (corsSettings.AllowedOrigins.Length == 0 || corsSettings.AllowedOrigins.Any(o
     throw new InvalidOperationException("Cors:AllowedOrigins must list explicit origins; wildcard origins are not allowed.");
 }
 
+// JWT settings (the signing key is a secret: user-secrets or Jwt__SigningKey). A missing/short key stops startup.
+builder.Services.AddOptions<JwtOptions>()
+    .Bind(builder.Configuration.GetSection(JwtOptions.SectionName))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+builder.Services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme)
+    .Configure<IOptions<JwtOptions>>((bearer, jwtOptions) =>
+    {
+        var jwt = jwtOptions.Value;
+        bearer.MapInboundClaims = false; // keep short claim names: sub, org, role
+        bearer.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = jwt.Issuer,
+            ValidateAudience = true,
+            ValidAudience = jwt.Audience,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SigningKey)),
+            ClockSkew = TimeSpan.FromMinutes(1),
+            NameClaimType = "sub",
+            RoleClaimType = "role",
+        };
+    });
+builder.Services.AddAuthorization();
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy
     .WithOrigins(corsSettings.AllowedOrigins)
@@ -34,8 +66,12 @@ var app = builder.Build();
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 app.UseCors();
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.MapGroup("/api/v1").MapHealthEndpoints();
+var v1 = app.MapGroup("/api/v1");
+v1.MapHealthEndpoints();
+v1.MapAuthEndpoints();
 
 app.Run();
 

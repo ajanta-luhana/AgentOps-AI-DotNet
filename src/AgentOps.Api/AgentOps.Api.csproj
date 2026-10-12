@@ -4,6 +4,9 @@
     <UserSecretsId>agentops-ai-dotnet-api</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+  </ItemGroup>
+  <ItemGroup>
     <!-- Needed so `dotnet ef` can use this project as the startup project. Not shipped at runtime. -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <PrivateAssets>all</PrivateAssets>
